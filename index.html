@@ -38,32 +38,35 @@
             Esta calculadora es una ayuda matemática y orientativa. No es asesoría legal ni garantiza decisiones de migración[cite: 1]. Cada historia es diferente y debe revisarse con calma antes de salir del país[cite: 1].
         </div>
 
-        <!-- EXPLICACIÓN SENCILLA (COMO UN NIÑO) -->
+        <!-- EXPLICACIÓN SENCILLA Y EJEMPLO HIPOTÉTICO -->
         <div class="space-y-3 text-xs text-neutralGray bg-navyDark/40 p-4 rounded border border-neutralGray/20">
-            <strong class="text-clinicalWhite block mb-1">¿Cómo funciona? Es muy fácil:</strong>
-            <p>Imagina que cada día sin papeles es como una piedra que se acumula en una mochila. Queremos saber cuántas piedras juntaste antes de recibir tu ayuda (como DACA o TPS).</p>
-            <ul class="list-disc list-inside mt-1 space-y-1 pl-2">
-                <li><strong>Cajita 1:</strong> El día exacto en que entraste o te quedaste sin estatus.</li>
-                <li><strong>Cajita 2:</strong> El día que te aprobaron tu protección (TPS o DACA).</li>
-                <li><strong>Cajita 3:</strong> Días que la ley te perdona (si aplica).</li>
-            </ul>
+            <strong class="text-clinicalWhite block mb-1">¿Cómo funciona? (Imagina una mochila):</strong>
+            <p>Cada día sin papeles es como una piedra que se acumula en una mochila. Queremos saber cuántas piedras juntaste antes de recibir tu protección o si saliste antes del país.</p>
+            
+            <div class="bg-petroleum/80 p-3 rounded border border-neutralGray/30 mt-2">
+                <strong class="text-clinicalWhite block mb-1">💡 Ejemplo hipotético de Juan:</strong>
+                <p>Juan se quedó sin papeles el <strong>1 de enero de 2023</strong> (empezó a sumar días). Luego, el <strong>1 de enero de 2024</strong> le aprobaron su TPS. Juan acumuló exactamente 365 días en su mochila (un año). Como llegó a la luz roja de los 365 días, las nuevas reglas indican que si sale con Advance Parole enfrentaría un castigo de 10 años[cite: 1]. ¡Por eso debe revisar su caso antes de comprar un boleto!</p>
+            </div>
         </div>
 
         <!-- CELDAS EN AZUL CLARO -->
         <form id="auditForm" class="space-y-4">
             <div>
-                <label class="block text-sm font-medium mb-1 text-clinicalWhite">1. ¿Cuándo empezaste a estar sin papeles?</label>
+                <label class="block text-sm font-medium mb-1 text-clinicalWhite">1. Fecha en que empezaste a estar sin papeles:</label>
+                <p class="text-xs text-neutralGray mb-1">El día exacto en que venció tu permiso anterior o entraste sin inspección[cite: 1].</p>
                 <input type="date" id="startDate" class="w-full bg-inputBlue text-navyDark font-medium border border-neutralGray/50 rounded p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emeraldAlert">
             </div>
 
             <div>
-                <label class="block text-sm font-medium mb-1 text-clinicalWhite">2. ¿Cuándo te aprobaron tu protección (TPS o DACA)?</label>
-                <input type="date" id="endDate" class="w-full bg-inputBlue text-navyDark font-medium border border-neutralGray/50 rounded p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emeraldAlert">
+                <label class="block text-sm font-medium mb-1 text-clinicalWhite">2. Meses totales bajo estatus protector (TPS / DACA):</label>
+                <p class="text-xs text-neutralGray mb-1">¿Cuánto tiempo en total estuviste protegido por TPS o DACA? Escribe los meses (si nunca los tuviste, pon 0)[cite: 1]. Esto nos ayuda a restar el tiempo que estuvo pausada la cuenta.</p>
+                <input type="number" id="protectedMonths" value="0" min="0" placeholder="Ej. 12" class="w-full bg-inputBlue text-navyDark font-medium border border-neutralGray/50 rounded p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emeraldAlert">
             </div>
 
             <div>
-                <label class="block text-sm font-medium mb-1 text-clinicalWhite">3. Días extra que la ley te perdona (opcional):</label>
-                <input type="number" id="exclusionDays" value="0" min="0" placeholder="Ej. 0" class="w-full bg-inputBlue text-navyDark font-medium border border-neutralGray/50 rounded p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emeraldAlert">
+                <label class="block text-sm font-medium mb-1 text-clinicalWhite">3. Días de salidas previas (si aplican):</label>
+                <p class="text-xs text-neutralGray mb-1">Si antes de tener TPS o DACA saliste de Estados Unidos y volviste a entrar, anota cuántos días duró esa salida[cite: 1]. Si no has salido antes, déjalo en 0.</p>
+                <input type="number" id="previousOutputDays" value="0" min="0" placeholder="Ej. 0" class="w-full bg-inputBlue text-navyDark font-medium border border-neutralGray/50 rounded p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emeraldAlert">
             </div>
 
             <button type="button" onclick="ejecutarAuditoriaAutomatizada()" class="w-full bg-emeraldAlert text-navyDark font-bold py-3 rounded text-sm transition hover:opacity-90">
@@ -110,26 +113,23 @@
     <script>
         function ejecutarAuditoriaAutomatizada() {
             const startInput = document.getElementById('startDate').value;
-            const endInput = document.getElementById('endDate').value;
-            const exclusions = parseInt(document.getElementById('exclusionDays').value) || 0;
-
-            if (!startInput || !endInput) {
-                alert('Por favor completa las dos primeras fechas para poder calcular.');
+            if (!startInput) {
+                alert('Por favor selecciona la fecha de inicio.');
                 return;
             }
 
             const startDate = new Date(startInput);
-            const endDate = new Date(endInput);
+            const today = new Date();
 
-            if (endDate < startDate) {
-                alert('La fecha de protección no puede ser anterior a la fecha de entrada.');
-                return;
-            }
-
-            const diffTime = Math.abs(endDate - startDate);
+            const diffTime = Math.abs(today - startDate);
             const rawDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            
-            const netDays = Math.max(0, rawDays - exclusions);
+
+            const protectedMonths = parseInt(document.getElementById('protectedMonths').value) || 0;
+            const protectedDays = protectedMonths * 30;
+
+            const previousOutputDays = parseInt(document.getElementById('previousOutputDays').value) || 0;
+
+            const netDays = Math.max(0, rawDays - protectedDays + previousOutputDays);
             const netYears = (netDays / 365).toFixed(1);
 
             document.getElementById('resultContainer').classList.remove('hidden');
