@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Viaje Seguro</title>
+    <title>Calculadora de Riesgo Arrabally v2.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -25,111 +25,171 @@
 </head>
 <body class="bg-navyDark text-clinicalWhite font-sans antialiased p-4 md:p-8">
 
-    <div class="max-w-2xl mx-auto bg-petroleum border border-neutralGray/30 rounded-lg p-6 shadow-2xl space-y-6">
+    <div class="max-w-3xl mx-auto bg-petroleum border border-neutralGray/30 rounded-lg p-6 shadow-2xl space-y-6">
         
-        <!-- AVISO LEGAL -->
-        <header class="border-b border-neutralGray/30 pb-4">
-            <h1 class="text-xl font-semibold mb-2">¿Es seguro tu viaje? Calculadora de días</h1>
-            <p class="text-xs text-neutralGray">Herramienta educativa de apoyo para la revisión de tus fechas antes de viajar con Formulario I-131 (Advance Parole)[cite: 1].</p>
-        </header>
-
-        <div class="bg-navyDark/80 p-4 rounded border border-dangerRed/40 text-[11px] text-neutralGray leading-relaxed">
-            <strong class="text-clinicalWhite block mb-1">AVISO IMPORTANTE:</strong> 
-            Esta calculadora es una ayuda matemática y orientativa. No es asesoría legal ni garantiza decisiones de migración[cite: 1]. Cada historia es diferente y debe revisarse con calma antes de salir del país[cite: 1].
-        </div>
-
-        <!-- EXPLICACIÓN SENCILLA Y EJEMPLO HIPOTÉTICO -->
-        <div class="space-y-3 text-xs text-neutralGray bg-navyDark/40 p-4 rounded border border-neutralGray/20">
-            <strong class="text-clinicalWhite block mb-1">¿Cómo funciona? (Imagina una mochila):</strong>
-            <p>Cada día sin papeles es como una piedra que se acumula en una mochila. Queremos saber cuántas piedras juntaste antes de recibir tu protección o si saliste antes del país.</p>
-            
-            <div class="bg-petroleum/80 p-3 rounded border border-neutralGray/30 mt-2">
-                <strong class="text-clinicalWhite block mb-1">💡 Ejemplo hipotético de Juan:</strong>
-                <p>Juan se quedó sin papeles el <strong>1 de enero de 2023</strong> (empezó a sumar días). Luego, el <strong>1 de enero de 2024</strong> le aprobaron su TPS. Juan acumuló exactamente 365 días en su mochila (un año). Como llegó a la luz roja de los 365 días, las nuevas reglas indican que si sale con Advance Parole enfrentaría un castigo de 10 años[cite: 1]. ¡Por eso debe revisar su caso antes de comprar un boleto!</p>
-            </div>
-        </div>
-
-        <!-- CELDAS EN AZUL CLARO -->
-        <form id="auditForm" class="space-y-4">
-            <div>
-                <label class="block text-sm font-medium mb-1 text-clinicalWhite">1. Fecha en que empezaste a estar sin papeles:</label>
-                <p class="text-xs text-neutralGray mb-1">El día exacto en que venció tu permiso anterior o entraste sin inspección[cite: 1].</p>
-                <input type="date" id="startDate" class="w-full bg-inputBlue text-navyDark font-medium border border-neutralGray/50 rounded p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emeraldAlert">
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium mb-1 text-clinicalWhite">2. Meses totales bajo estatus protector (TPS / DACA):</label>
-                <p class="text-xs text-neutralGray mb-1">¿Cuánto tiempo en total estuviste protegido por TPS o DACA? Escribe los meses (si nunca los tuviste, pon 0)[cite: 1]. Esto nos ayuda a restar el tiempo que estuvo pausada la cuenta.</p>
-                <input type="number" id="protectedMonths" value="0" min="0" placeholder="Ej. 12" class="w-full bg-inputBlue text-navyDark font-medium border border-neutralGray/50 rounded p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emeraldAlert">
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium mb-1 text-clinicalWhite">3. Días de salidas previas (si aplican):</label>
-                <p class="text-xs text-neutralGray mb-1">Si antes de tener TPS o DACA saliste de Estados Unidos y volviste a entrar, anota cuántos días duró esa salida[cite: 1]. Si no has salido antes, déjalo en 0.</p>
-                <input type="number" id="previousOutputDays" value="0" min="0" placeholder="Ej. 0" class="w-full bg-inputBlue text-navyDark font-medium border border-neutralGray/50 rounded p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emeraldAlert">
-            </div>
-
-            <button type="button" onclick="ejecutarAuditoriaAutomatizada()" class="w-full bg-emeraldAlert text-navyDark font-bold py-3 rounded text-sm transition hover:opacity-90">
-                Ver Mi Resultado
+        <!-- NAVEGACIÓN DE PESTAÑAS -->
+        <div class="flex border-b border-neutralGray/30 pb-3 gap-2">
+            <button onclick="cambiarPestana('guia')" id="btnGuia" class="flex-1 py-2.5 px-4 text-xs font-bold rounded bg-emeraldAlert text-navyDark transition">
+                Pestaña 1: Guía jurídica y blindaje
             </button>
-        </form>
-
-        <!-- RESULTADOS EN FORMATO SENCILLO -->
-        <div id="resultContainer" class="hidden mt-4 p-4 rounded bg-navyDark border border-neutralGray/40 space-y-3">
-            <div class="grid grid-cols-2 gap-4 border-b border-neutralGray/30 pb-3 text-xs">
-                <div>
-                    <span class="text-neutralGray block">Total de días en la mochila:</span>
-                    <strong id="resDays" class="text-sm text-clinicalWhite">0</strong>
-                </div>
-                <div>
-                    <span class="text-neutralGray block">Tiempo en años:</span>
-                    <strong id="resYears" class="text-sm text-clinicalWhite">0.0</strong>
-                </div>
-            </div>
-
-            <div>
-                <span class="text-neutralGray block text-xs mb-1">Semáforo del viaje:</span>
-                <div id="resInadmissibility" class="p-3 text-center rounded font-bold text-sm"></div>
-            </div>
-
-            <div>
-                <span class="text-neutralGray block text-xs mb-1">¿Qué significa para ti?:</span>
-                <div id="resDiagnostic" class="text-xs leading-relaxed text-clinicalWhite bg-petroleum/60 p-3 rounded border border-neutralGray/30"></div>
-            </div>
+            <button onclick="cambiarPestana('calculadora')" id="btnCalculadora" class="flex-1 py-2.5 px-4 text-xs font-bold rounded bg-navyDark/60 text-neutralGray border border-neutralGray/40 transition">
+                Pestaña 2: Calculadora interactiva
+            </button>
         </div>
 
-        <!-- BOTONES DE AYUDA -->
-        <div id="ctaContainer" class="hidden pt-4 border-t border-neutralGray/30 flex flex-col md:flex-row gap-3">
-            <a href="#" id="ctaDiy" class="flex-1 text-center bg-neutralGray/20 hover:bg-neutralGray/30 text-xs font-semibold py-3 px-4 rounded border border-neutralGray/50 transition">
-                Quiero hacerlo yo mismo (Ver Guía Táctica)[cite: 1]
-            </a>
-            <a href="#" id="ctaAssisted" class="flex-1 text-center bg-emeraldAlert text-navyDark text-xs font-bold py-3 px-4 rounded transition hover:opacity-90">
-                Prefiero ayuda experta (Agendar revisión)[cite: 1]
-            </a>
+        <!-- ================= PESTAÑA 1: GUÍA Y DISCLAIMER ================= -->
+        <div id="seccionGuia" class="space-y-4 text-xs text-neutralGray">
+            <div class="border-b border-neutralGray/30 pb-2">
+                <h1 class="text-lg font-semibold text-clinicalWhite">Manual Técnico y Marco Normativo (v2.0)</h1>
+                <p class="text-[11px] mt-1">Fundamentos operacionales ante el cambio jurisprudencial del BIA[cite: 1].</p>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="bg-navyDark/80 p-4 rounded border border-dangerRed/40 text-[11px] leading-relaxed">
+                <strong class="text-clinicalWhite block mb-1">Sección de Advertencia Legal (Disclaimer):</strong> 
+                Esta herramienta es estrictamente matemática y educativa. El cálculo y uso de este recurso no constituye asesoría legal ni establece relación consultor-cliente. La aprobación física de un Formulario I-131 (Advance Parole) no garantiza de forma absoluta la readmisión por parte de CBP bajo los criterios del precedente de la BIA[cite: 1].
+            </div>
+
+            <!-- The Shift -->
+            <div class="bg-navyDark/40 p-3 rounded border border-neutralGray/20">
+                <strong class="text-clinicalWhite block mb-1">Definición de "Salida" (The Shift):</strong>
+                <p>El fallo de la BIA del 13 de agosto de 2026 (*Matter of Delcarmen-Lara*) anuló definitivamente la doctrina de protección anterior (*Matter of Arrabally and Yerrabelly*)[cite: 1]. A partir de esta fecha, cualquier salida de los EE. UU. bajo Advance Parole se clasifica legalmente como una "salida" ordinaria que activa el castigo de los 10 años si se acumularon 365 días o más de presencia ilegal previa[cite: 1].</p>
+            </div>
+
+            <!-- Prospectividad -->
+            <div class="bg-navyDark/40 p-3 rounded border border-neutralGray/20">
+                <strong class="text-clinicalWhite block mb-1">Regla de la Prospectividad:</strong>
+                <p>Este criterio normativo se aplica de forma operativa a los planes de viaje futuros. No penaliza de forma retroactiva salidas anteriores ya ejecutadas bajo el amparo de la doctrina derogada[cite: 1].</p>
+            </div>
+
+            <!-- Estatus Protector -->
+            <div class="bg-navyDark/40 p-3 rounded border border-neutralGray/20">
+                <strong class="text-clinicalWhite block mb-1">Guía del Estatus Protector:</strong>
+                <p>El estatus protector (TPS o DACA) "congela" o pausa de forma activa la acumulación de nuevos días de presencia ilegal, pero <strong>no borra</strong> el conteo histórico acumulado antes de su aprobación[cite: 1].</p>
+            </div>
+
+            <button onclick="cambiarPestana('calculadora')" class="w-full bg-emeraldAlert text-navyDark font-bold py-3 rounded text-xs transition hover:opacity-90 mt-4">
+                Entendido, ir a la Calculadora Interactiva
+            </button>
+        </div>
+
+        <!-- ================= PESTAÑA 2: CALCULADORA ================= -->
+        <div id="seccionCalculadora" class="hidden space-y-6">
+            <header class="border-b border-neutralGray/30 pb-3">
+                <h2 class="text-lg font-semibold text-clinicalWhite">Calculadora Cronológica e Indicadores</h2>
+                <p class="text-xs text-neutralGray mt-1">Ingrese los datos de su expediente en las celdas designadas[cite: 1].</p>
+            </header>
+
+            <!-- Ejemplo Hipotético -->
+            <div class="bg-navyDark/40 p-3 rounded border border-neutralGray/20 text-xs text-neutralGray">
+                <strong class="text-clinicalWhite block mb-1">💡 Ejemplo Guía:</strong>
+                <p>Si un usuario ingresó sin inspección el 1 de enero de 2022 y obtuvo su estatus protector el 1 de enero de 2023, acumuló exactamente 365 días en su conteo neto antes de pausar su presencia ilegal[cite: 1].</p>
+            </div>
+
+            <!-- Sección A: Entradas -->
+            <form id="auditForm" class="space-y-4 text-xs">
+                <div>
+                    <label class="block font-medium mb-1 text-clinicalWhite">Fecha de primer ingreso sin inspección (EWI):</label>
+                    <p class="text-[11px] text-neutralGray mb-1">Inicio oficial del conteo de presencia ilegal[cite: 1].</p>
+                    <input type="date" id="startDate" class="w-full bg-inputBlue text-navyDark font-medium border border-neutralGray/50 rounded p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emeraldAlert">
+                </div>
+
+                <div>
+                    <label class="block font-medium mb-1 text-clinicalWhite">Fecha de aprobación oficial de TPS o DACA:</label>
+                    <p class="text-[11px] text-neutralGray mb-1">Fin del conteo de presencia ilegal por estatus protector[cite: 1].</p>
+                    <input type="date" id="endDate" class="w-full bg-inputBlue text-navyDark font-medium border border-neutralGray/50 rounded p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emeraldAlert">
+                </div>
+
+                <div>
+                    <label class="block font-medium mb-1 text-clinicalWhite">Salidas previas o exclusiones legales (en días):</label>
+                    <p class="text-[11px] text-neutralGray mb-1">Días restados del cómputo por ley o salidas anteriores[cite: 1].</p>
+                    <input type="number" id="exclusionDays" value="0" min="0" class="w-full bg-inputBlue text-navyDark font-medium border border-neutralGray/50 rounded p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emeraldAlert">
+                </div>
+
+                <button type="button" onclick="ejecutarCalculoV2()" class="w-full bg-emeraldAlert text-navyDark font-bold py-3 rounded text-xs transition hover:opacity-90">
+                    Ejecutar Auditoría Matemática
+                </button>
+            </form>
+
+            <!-- Sección B y C: Resultados y Semáforo -->
+            <div id="resultContainer" class="hidden space-y-4 p-4 rounded bg-navyDark border border-neutralGray/40 text-xs">
+                <div class="grid grid-cols-2 gap-4 border-b border-neutralGray/30 pb-3">
+                    <div>
+                        <span class="text-neutralGray block">Días de presencia ilegal acumulados:</span>
+                        <strong id="resDays" class="text-sm text-clinicalWhite">0</strong>
+                    </div>
+                    <div>
+                        <span class="text-neutralGray block">Equivalencia temporal congelada:</span>
+                        <strong id="resYears" class="text-sm text-clinicalWhite">0.0 años</strong>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="text-neutralGray block mb-1">Indicador de Riesgo (*Matter of Delcarmen-Lara*):</span>
+                    <div id="resSemaphor" class="p-3 text-center rounded font-bold text-xs"></div>
+                </div>
+
+                <div>
+                    <span class="text-neutralGray block mb-1">Diagnóstico Operativo:</span>
+                    <div id="resDiagnostic" class="text-xs leading-relaxed text-clinicalWhite bg-petroleum/60 p-3 rounded border border-neutralGray/30"></div>
+                </div>
+            </div>
+
+            <!-- Sección D: Conversión Comercial (CTA Dual) -->
+            <div id="ctaContainer" class="hidden pt-2 border-t border-neutralGray/30 flex flex-col md:flex-row gap-3">
+                <a href="#" id="ctaDiy" class="flex-1 text-center bg-neutralGray/20 hover:bg-neutralGray/30 text-xs font-semibold py-3 px-4 rounded border border-neutralGray/50 transition">
+                    Opción DIY: Adquirir Guía de Récords e Historial[cite: 1]
+                </a>
+                <a href="#" id="ctaAssisted" class="flex-1 text-center bg-emeraldAlert text-navyDark text-xs font-bold py-3 px-4 rounded transition hover:opacity-90">
+                    Opción Asistida: Contratar Auditoría Forense y Perdón I-601A[cite: 1]
+                </a>
+            </div>
         </div>
 
     </div>
 
     <script>
-        function ejecutarAuditoriaAutomatizada() {
+        function cambiarPestana(tipo) {
+            const btnGuia = document.getElementById('btnGuia');
+            const btnCalc = document.getElementById('btnCalculadora');
+            const secGuia = document.getElementById('seccionGuia');
+            const secCalc = document.getElementById('seccionCalculadora');
+
+            if (tipo === 'guia') {
+                secGuia.classList.remove('hidden');
+                secCalc.classList.add('hidden');
+                btnGuia.className = "flex-1 py-2.5 px-4 text-xs font-bold rounded bg-emeraldAlert text-navyDark transition";
+                btnCalc.className = "flex-1 py-2.5 px-4 text-xs font-bold rounded bg-navyDark/60 text-neutralGray border border-neutralGray/40 transition";
+            } else {
+                secGuia.classList.add('hidden');
+                secCalc.classList.remove('hidden');
+                btnCalc.className = "flex-1 py-2.5 px-4 text-xs font-bold rounded bg-emeraldAlert text-navyDark transition";
+                btnGuia.className = "flex-1 py-2.5 px-4 text-xs font-bold rounded bg-navyDark/60 text-neutralGray border border-neutralGray/40 transition";
+            }
+        }
+
+        function ejecutarCalculoV2() {
             const startInput = document.getElementById('startDate').value;
-            if (!startInput) {
-                alert('Por favor selecciona la fecha de inicio.');
+            const endInput = document.getElementById('endDate').value;
+            const exclusions = parseInt(document.getElementById('exclusionDays').value) || 0;
+
+            if (!startInput || !endInput) {
+                alert('Por favor complete las fechas de ingreso y estatus.');
                 return;
             }
 
             const startDate = new Date(startInput);
-            const today = new Date();
+            const endDate = new Date(endInput);
 
-            const diffTime = Math.abs(today - startDate);
+            if (endDate < startDate) {
+                alert('La fecha de aprobación no puede ser anterior a la fecha de ingreso.');
+                return;
+            }
+
+            const diffTime = Math.abs(endDate - startDate);
             const rawDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-            const protectedMonths = parseInt(document.getElementById('protectedMonths').value) || 0;
-            const protectedDays = protectedMonths * 30;
-
-            const previousOutputDays = parseInt(document.getElementById('previousOutputDays').value) || 0;
-
-            const netDays = Math.max(0, rawDays - protectedDays + previousOutputDays);
+            
+            const netDays = Math.max(0, rawDays - exclusions);
             const netYears = (netDays / 365).toFixed(1);
 
             document.getElementById('resultContainer').classList.remove('hidden');
@@ -138,17 +198,17 @@
             document.getElementById('resDays').innerText = `${netDays} días`;
             document.getElementById('resYears').innerText = `${netYears} años`;
 
-            const inadDiv = document.getElementById('resInadmissibility');
+            const semaphorDiv = document.getElementById('resSemaphor');
             const diagDiv = document.getElementById('resDiagnostic');
 
             if (netDays >= 365) {
-                inadDiv.innerHTML = "🔴 LUZ ROJA: ¡MUCHO CUIDADO!";
-                inadDiv.className = "p-3 text-center rounded font-bold text-sm bg-dangerRed text-clinicalWhite";
-                diagDiv.innerHTML = "<strong>Peligro alto:</strong> Juntaste 365 días (un año) o más[cite: 1]. Si sales del país ahora con Advance Parole, las reglas nuevas (<em>Matter of Delcarmen-Lara</em>) indican que te pondrán un castigo automático de 10 años sin poder volver[cite: 1]. <strong>No viajes</strong> sin hablar antes con un especialista para revisar tus perdones[cite: 1].";
+                semaphorDiv.innerHTML = "⚠️ RIESGO CRÍTICO - CASTIGO DE 10 AÑOS ACTIVO";
+                semaphorDiv.className = "p-3 text-center rounded font-bold text-xs bg-dangerRed text-clinicalWhite";
+                diagDiv.innerHTML = "<strong>Suspensión inmediata de viaje no esencial.</strong> El resultado es igual o mayor a 365 días de presencia ilegal. Salir con Advance Parole (Formulario I-131) activa de forma automática el castigo de inadmisibilidad por 10 años bajo el precedente <em>Matter of Delcarmen-Lara</em>[cite: 1]. <strong>Se requiere exención (I-601A) antes de viajar</strong>[cite: 1].";
             } else {
-                inadDiv.innerHTML = "🟢 LUZ VERDE: MENOS DE UN AÑO";
-                inadDiv.className = "p-3 text-center rounded font-bold text-sm bg-emeraldAlert text-navyDark";
-                diagDiv.innerHTML = "<strong>Buen comienzo:</strong> Tienes menos de 365 días acumulados[cite: 1]. Esto significa que no se activa ese castigo automático de los 10 años por este tiempo[cite: 1]. De todas formas, recuerda revisar si tienes otros detalles en tu expediente antes de comprar boletos[cite: 1].";
+                semaphorDiv.innerHTML = "✅ RIESGO BAJO - HISTORIAL DEBE SER VALIDADO FORENSICAMENTE";
+                semaphorDiv.className = "p-3 text-center rounded font-bold text-xs bg-emeraldAlert text-navyDark";
+                diagDiv.innerHTML = "El cálculo neto es inferior a 365 días acumulados[cite: 1]. No se activa el castigo automático de los 10 años por este periodo específico, sin embargo, el historial debe ser validado forensicamente para descartar otras causales de inadmisibilidad antes de proceder[cite: 1].";
             }
         }
     </script>
