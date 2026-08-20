@@ -3,86 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Auditoría Preventiva de Viaje</title>
+    <title>Calculadora de Auditoría Preventiva | Gestión Migratoria</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = { theme: { extend: { colors: { navyDark: '#0B132B', petroleum: '#1C2541', clinicalWhite: '#FFFFFF', neutralGray: '#6C757D', emeraldAlert: '#2A9D8F', dangerRed: '#E76F51' } } } }
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navyDark: '#0B132B',
+                        petroleum: '#1C2541',
+                        clinicalWhite: '#FFFFFF',
+                        neutralGray: '#6C757D',
+                        emeraldAlert: '#2A9D8F',
+                        dangerRed: '#E76F51'
+                    }
+                }
+            }
+        }
     </script>
 </head>
-<body class="bg-navyDark text-clinicalWhite font-sans antialiased p-4 md:p-12">
+<body class="bg-navyDark text-clinicalWhite font-sans antialiased p-4 md:p-8">
 
-    <div class="max-w-xl mx-auto bg-petroleum border border-neutralGray/30 rounded-lg p-6 shadow-2xl">
-        <header class="mb-6 border-b border-neutralGray/30 pb-4">
-            <h1 class="text-xl font-semibold">¿Es seguro tu viaje con Advance Parole?</h1>
-            <p class="text-xs text-neutralGray mt-1">Calcula tu nivel de riesgo según los criterios de presencia ilegal (Matter of Delcarmen-Lara)[cite: 1].</p>
+    <div class="max-w-2xl mx-auto bg-petroleum border border-neutralGray/30 rounded-lg p-6 shadow-2xl space-y-6">
+        
+        <!-- SECCIÓN 1: PANEL DE INSTRUCCIONES Y DISCLAIMER -->
+        <header class="border-b border-neutralGray/30 pb-4">
+            <h1 class="text-xl font-semibold mb-2">Calculadora de Auditoría Preventiva: Presencia Ilegal</h1>
+            <p class="text-xs text-neutralGray">Evaluación cronológica de riesgo ante salidas con Formulario I-131 (Advance Parole) bajo los criterios de Matter of Delcarmen-Lara (2026)[cite: 1].</p>
         </header>
 
-        <form id="auditForm" class="space-y-5">
-            <!-- Paso 1 -->
-            <div class="bg-navyDark/50 p-4 rounded border border-neutralGray/20">
-                <label class="block text-sm font-medium mb-1">Paso 1: ¿Cuándo venció tu estatus legal o cuándo ingresaste sin inspección?</label>
-                <p class="text-xs text-neutralGray mb-2">Selecciona la fecha aproximada en que comenzaste a estar sin estatus en Estados Unidos[cite: 1].</p>
+        <!-- Disclaimer Oficial -->
+        <div class="bg-navyDark/80 p-4 rounded border border-dangerRed/40 text-[11px] text-neutralGray leading-relaxed">
+            <strong class="text-clinicalWhite block mb-1">IMPORTANTE – LEA ANTES DE USAR:</strong> 
+            Esta calculadora es una herramienta de preevaluación estrictamente matemática y educativa. No constituye asesoría legal, no establece una relación consultor-cliente y no reemplaza la evaluación individual de un profesional licenciado[cite: 1]. El cálculo de la presencia ilegal bajo la ley de los Estados Unidos (INA § 212(a)(9)(B)) implica variables complejas. La aprobación de un permiso de viaje (Advance Parole - Formulario I-131) no garantiza que el servicio de control fronterizo (CBP) permita su reingreso al país si usted ha acumulado presencia no autorizada previa[cite: 1]. No tome decisiones de viaje basadas únicamente en este resultado[cite: 1].
+        </div>
+
+        <!-- Instrucciones de Uso -->
+        <div class="bg-navyDark/40 p-4 rounded border border-neutralGray/20 text-xs text-neutralGray space-y-1">
+            <strong class="text-clinicalWhite block mb-1">Instrucciones de uso:</strong>
+            <p>1. Ingrese la fecha en que comenzó la acumulación de presencia ilegal (ej. vencimiento de su Formulario I-94 o ingreso sin inspección)[cite: 1].</p>
+            <p>2. Indique los meses totales que estuvo cubierto por protecciones válidas que suspenden el conteo (TPS o DACA)[cite: 1].</p>
+            <p>3. Registre días de salidas previas si aplican[cite: 1].</p>
+        </div>
+
+        <!-- SECCIÓN 2: MOTOR DE CÁLCULO INTERACTIVO -->
+        <form id="auditForm" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium mb-1">Fecha de inicio de presencia ilegal:</label>
                 <input type="date" id="startDate" class="w-full bg-navyDark border border-neutralGray/50 rounded p-2.5 text-clinicalWhite text-sm focus:border-emeraldAlert outline-none">
             </div>
 
-            <!-- Paso 2 -->
-            <div class="bg-navyDark/50 p-4 rounded border border-neutralGray/20">
-                <label class="block text-sm font-medium mb-1">Paso 2: ¿Tuviste algún amparo o protección aprobada (TPS o DACA)?</label>
-                <p class="text-xs text-neutralGray mb-2">Si estuviste cubierto por TPS o DACA, indica cuántos <strong>meses en total</strong> duró esa protección[cite: 1]. Si nunca los tuviste, déjalo en 0.</p>
-                <input type="number" id="protectedMonths" value="0" min="0" class="w-full bg-navyDark border border-neutralGray/50 rounded p-2.5 text-clinicalWhite text-sm focus:border-emeraldAlert outline-none" placeholder="Ej. 12 meses">
+            <div>
+                <label class="block text-sm font-medium mb-1">Meses totales bajo estatus protector (TPS / DACA):</label>
+                <input type="number" id="protectedMonths" value="0" min="0" placeholder="Ej. 12" class="w-full bg-navyDark border border-neutralGray/50 rounded p-2.5 text-clinicalWhite text-sm focus:border-emeraldAlert outline-none">
             </div>
 
-            <button type="button" onclick="calcularRiesgoVisual()" class="w-full bg-emeraldAlert text-navyDark font-bold py-3 rounded text-sm transition hover:opacity-90">Ver Mi Resultado y Nivel de Riesgo</button>
+            <div>
+                <label class="block text-sm font-medium mb-1">Días de salidas previas (si aplican):</label>
+                <input type="number" id="previousOutputDays" value="0" min="0" placeholder="Ej. 0" class="w-full bg-navyDark border border-neutralGray/50 rounded p-2.5 text-clinicalWhite text-sm focus:border-emeraldAlert outline-none">
+            </div>
+
+            <button type="button" onclick="ejecutarAuditoria()" class="w-full bg-emeraldAlert text-navyDark font-bold py-3 rounded text-sm transition hover:opacity-90">
+                Calcular Riesgo Operativo
+            </button>
         </form>
 
-        <!-- Resultados -->
-        <div id="resultContainer" class="hidden mt-6 p-4 rounded bg-navyDark border border-neutralGray/40">
-            <h2 id="resultTitle" class="text-base font-semibold mb-2"></h2>
+        <!-- Resultados Dinámicos (Semáforo Lógico) -->
+        <div id="resultContainer" class="hidden mt-4 p-4 rounded bg-navyDark border border-neutralGray/40 space-y-3">
+            <h2 id="resultTitle" class="text-base font-semibold"></h2>
             <p id="resultDescription" class="text-xs text-neutralGray leading-relaxed"></p>
         </div>
 
-        <!-- Disclaimer -->
-        <footer class="mt-6 pt-4 border-t border-neutralGray/20 text-[10px] text-neutralGray leading-tight">
-            <strong>AVISO LEGAL:</strong> Esta calculadora es una herramienta de orientación para gestión y auditoría documental. No constituye asesoría jurídica ni consejo legal. Cada expediente migratorio es único y requiere una revisión exhaustiva de antecedentes antes de realizar cualquier viaje con Formulario I-131 (Advance Parole)[cite: 1].
-        </footer>
+        <!-- SECCIÓN 3: PANEL DE CONVERSIÓN (CTA DUAL) -->
+        <div id="ctaContainer" class="hidden pt-4 border-t border-neutralGray/30 flex flex-col md:flex-row gap-3">
+            <a href="#" id="ctaDiy" class="flex-1 text-center bg-neutralGray/20 hover:bg-neutralGray/30 text-xs font-semibold py-3 px-4 rounded border border-neutralGray/50 transition">
+                Opción DIY: Adquirir Guía Táctica y Checklist (I-601/I-601A)[cite: 1]
+            </a>
+            <a href="#" id="ctaAssisted" class="flex-1 text-center bg-emeraldAlert text-navyDark text-xs font-bold py-3 px-4 rounded transition hover:opacity-90">
+                Opción Asistida: Agendar Auditoría y Preparación de Expediente[cite: 1]
+            </a>
+        </div>
+
     </div>
 
     <script>
-        function calcularRiesgoVisual() {
+        function ejecutarAuditoria() {
             const startInput = document.getElementById('startDate').value;
             const container = document.getElementById('resultContainer');
+            const ctaBox = document.getElementById('ctaContainer');
             const title = document.getElementById('resultTitle');
             const desc = document.getElementById('resultDescription');
 
             if (!startInput) {
-                alert('Por favor selecciona una fecha en el Paso 1.');
+                alert('Por favor ingrese la fecha de inicio de presencia ilegal.');
                 return;
             }
 
             const startDate = new Date(startInput);
             const today = new Date();
             
-            // Cálculo de días transcurridos
             const diffTime = Math.abs(today - startDate);
             const totalDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-            // Conversión de meses protegidos a días
             const protectedMonths = parseInt(document.getElementById('protectedMonths').value) || 0;
             const protectedDays = protectedMonths * 30;
+            
+            const previousOutputDays = parseInt(document.getElementById('previousOutputDays').value) || 0;
 
-            const netDays = totalDays - protectedDays;
-            const netYears = (netDays / 365).toFixed(1);
+            const netDays = totalDays - protectedDays + previousOutputDays;
 
             container.classList.remove('hidden');
+            ctaBox.classList.remove('hidden');
 
             if (netDays >= 365) {
-                title.innerHTML = `🔴 ZONA DE ALERTA CRÍTICA (${netDays} días / ~${netYears} años)`;
-                title.className = "text-base font-semibold mb-2 text-dangerRed";
-                desc.innerHTML = `Acumulas un año o más de presencia ilegal. <strong>Prohibición estricta de viaje:</strong> Salir del país con Advance Parole (Formulario I-131) activará automáticamente el castigo de los 10 años sin un perdón aprobado previamente (como el I-601A)[cite: 1].`;
+                title.innerHTML = `🔴 RIESGO CRÍTICO: ${netDays} Días Acumulados`;
+                title.className = "text-base font-semibold text-dangerRed";
+                desc.innerHTML = `<strong>Suspensión inmediata de viaje no esencial.</strong> El resultado es igual o mayor a 365 días de presencia ilegal. Salir con Advance Parole (Formulario I-131) activa de forma automática el castigo de inadmisibilidad por 10 años bajo el precedente <em>Matter of Delcarmen-Lara</em>[cite: 1]. Se requiere estructurar los Formularios I-601 o I-601A[cite: 1].`;
             } else {
-                title.innerHTML = `🟡 ZONA DE MENOR RIESGO (${netDays} días acumulados)`;
-                title.className = "text-base font-semibold mb-2 text-emeraldAlert";
-                desc.innerHTML = `No alcanzas el umbral de un año de presencia ilegal[cite: 1]. Sin embargo, <strong>es obligatorio revisar antecedentes adicionales</strong> (como salidas previas u órdenes de deportación) antes de tomar cualquier decisión de viaje[cite: 1].`;
+                title.innerHTML = `🟢 BAJO RIESGO / VIABILIDAD CONDICIONAL: ${netDays} Días`;
+                title.className = "text-base font-semibold text-emeraldAlert";
+                desc.innerHTML = `El cálculo neto es inferior a 365 días acumulados[cite: 1]. No se activa el castigo automático de los 10 años por este periodo, sin embargo, se requiere una revisión exhaustiva de antecedentes adicionales antes de proceder con cualquier viaje[cite: 1].`;
             }
         }
     </script>
