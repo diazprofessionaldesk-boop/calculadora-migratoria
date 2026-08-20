@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Auditoría Preventiva | Gestión Migratoria</title>
+    <title>Calculadora de Viaje Seguro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -15,7 +15,8 @@
                         clinicalWhite: '#FFFFFF',
                         neutralGray: '#6C757D',
                         emeraldAlert: '#2A9D8F',
-                        dangerRed: '#E76F51'
+                        dangerRed: '#E76F51',
+                        inputBlue: '#E0F2FE'
                     }
                 }
             }
@@ -26,73 +27,81 @@
 
     <div class="max-w-2xl mx-auto bg-petroleum border border-neutralGray/30 rounded-lg p-6 shadow-2xl space-y-6">
         
-        <!-- PANEL DE ADVERTENCIA LEGAL Y DISCLAIMER -->
+        <!-- AVISO LEGAL -->
         <header class="border-b border-neutralGray/30 pb-4">
-            <h1 class="text-xl font-semibold mb-2">Calculadora de Auditoría Preventiva: Presencia Ilegal</h1>
-            <p class="text-xs text-neutralGray">Evaluación cronológica de riesgo ante salidas con Formulario I-131 (Advance Parole) bajo los criterios de Matter of Delcarmen-Lara (2026)[cite: 1].</p>
+            <h1 class="text-xl font-semibold mb-2">¿Es seguro tu viaje? Calculadora de días</h1>
+            <p class="text-xs text-neutralGray">Herramienta educativa de apoyo para la revisión de tus fechas antes de viajar con Formulario I-131 (Advance Parole)[cite: 1].</p>
         </header>
 
         <div class="bg-navyDark/80 p-4 rounded border border-dangerRed/40 text-[11px] text-neutralGray leading-relaxed">
-            <strong class="text-clinicalWhite block mb-1">IMPORTANTE – LEA ANTES DE USAR:</strong> 
-            Esta calculadora es una herramienta de preevaluación estrictamente matemática y educativa. No constituye asesoría legal, no establece una relación consultor-cliente y no reemplaza la evaluación individual de un profesional licenciado[cite: 1]. El cálculo de la presencia ilegal bajo la ley de los Estados Unidos (INA § 212(a)(9)(B)) implica variables complejas. La aprobación de un permiso de viaje (Advance Parole - Formulario I-131) no garantiza que el servicio de control fronterizo (CBP) permita su reingreso al país si usted ha acumulado presencia no autorizada previa[cite: 1]. No tome decisiones de viaje basadas únicamente en este resultado[cite: 1].
+            <strong class="text-clinicalWhite block mb-1">AVISO IMPORTANTE:</strong> 
+            Esta calculadora es una ayuda matemática y orientativa. No es asesoría legal ni garantiza decisiones de migración[cite: 1]. Cada historia es diferente y debe revisarse con calma antes de salir del país[cite: 1].
         </div>
 
-        <!-- REGISTRO INTERACTIVO DE FECHAS -->
+        <!-- EXPLICACIÓN SENCILLA (COMO UN NIÑO) -->
+        <div class="space-y-3 text-xs text-neutralGray bg-navyDark/40 p-4 rounded border border-neutralGray/20">
+            <strong class="text-clinicalWhite block mb-1">¿Cómo funciona? Es muy fácil:</strong>
+            <p>Imagina que cada día sin papeles es como una piedra que se acumula en una mochila. Queremos saber cuántas piedras juntaste antes de recibir tu ayuda (como DACA o TPS).</p>
+            <ul class="list-disc list-inside mt-1 space-y-1 pl-2">
+                <li><strong>Cajita 1:</strong> El día exacto en que entraste o te quedaste sin estatus.</li>
+                <li><strong>Cajita 2:</strong> El día que te aprobaron tu protección (TPS o DACA).</li>
+                <li><strong>Cajita 3:</strong> Días que la ley te perdona (si aplica).</li>
+            </ul>
+        </div>
+
+        <!-- CELDAS EN AZUL CLARO -->
         <form id="auditForm" class="space-y-4">
             <div>
-                <label class="block text-sm font-medium mb-1">Fecha de ingreso (EWI / Vencimiento):</label>
-                <p class="text-xs text-neutralGray mb-1">Último ingreso sin inspección o fecha exacta en que comenzó la acumulación de presencia ilegal[cite: 1].</p>
-                <input type="date" id="startDate" class="w-full bg-navyDark border border-neutralGray/50 rounded p-2.5 text-clinicalWhite text-sm focus:border-emeraldAlert outline-none">
+                <label class="block text-sm font-medium mb-1 text-clinicalWhite">1. ¿Cuándo empezaste a estar sin papeles?</label>
+                <input type="date" id="startDate" class="w-full bg-inputBlue text-navyDark font-medium border border-neutralGray/50 rounded p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emeraldAlert">
             </div>
 
             <div>
-                <label class="block text-sm font-medium mb-1">Fecha de estatus protector o cálculo actual:</label>
-                <p class="text-xs text-neutralGray mb-1">Fecha de aprobación de DACA, TPS o fecha límite del cálculo actual[cite: 1].</p>
-                <input type="date" id="endDate" class="w-full bg-navyDark border border-neutralGray/50 rounded p-2.5 text-clinicalWhite text-sm focus:border-emeraldAlert outline-none">
+                <label class="block text-sm font-medium mb-1 text-clinicalWhite">2. ¿Cuándo te aprobaron tu protección (TPS o DACA)?</label>
+                <input type="date" id="endDate" class="w-full bg-inputBlue text-navyDark font-medium border border-neutralGray/50 rounded p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emeraldAlert">
             </div>
 
             <div>
-                <label class="block text-sm font-medium mb-1">Días de exclusión (opcional):</label>
-                <p class="text-xs text-neutralGray mb-1">Períodos que no acumulan presencia ilegal por ley o salidas previas autorizadas[cite: 1].</p>
-                <input type="number" id="exclusionDays" value="0" min="0" placeholder="Ej. 0" class="w-full bg-navyDark border border-neutralGray/50 rounded p-2.5 text-clinicalWhite text-sm focus:border-emeraldAlert outline-none">
+                <label class="block text-sm font-medium mb-1 text-clinicalWhite">3. Días extra que la ley te perdona (opcional):</label>
+                <input type="number" id="exclusionDays" value="0" min="0" placeholder="Ej. 0" class="w-full bg-inputBlue text-navyDark font-medium border border-neutralGray/50 rounded p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emeraldAlert">
             </div>
 
             <button type="button" onclick="ejecutarAuditoriaAutomatizada()" class="w-full bg-emeraldAlert text-navyDark font-bold py-3 rounded text-sm transition hover:opacity-90">
-                Calcular Auditoría Operativa
+                Ver Mi Resultado
             </button>
         </form>
 
-        <!-- RESULTADOS DE AUDITORÍA AUTOMATIZADOS -->
+        <!-- RESULTADOS EN FORMATO SENCILLO -->
         <div id="resultContainer" class="hidden mt-4 p-4 rounded bg-navyDark border border-neutralGray/40 space-y-3">
             <div class="grid grid-cols-2 gap-4 border-b border-neutralGray/30 pb-3 text-xs">
                 <div>
-                    <span class="text-neutralGray block">Total de días:</span>
+                    <span class="text-neutralGray block">Total de días en la mochila:</span>
                     <strong id="resDays" class="text-sm text-clinicalWhite">0</strong>
                 </div>
                 <div>
-                    <span class="text-neutralGray block">Equivalencia en años:</span>
+                    <span class="text-neutralGray block">Tiempo en años:</span>
                     <strong id="resYears" class="text-sm text-clinicalWhite">0.0</strong>
                 </div>
             </div>
 
             <div>
-                <span class="text-neutralGray block text-xs mb-1">Estatus de inadmisibilidad:</span>
-                <div id="resInadmissibility" class="p-2 text-center rounded font-bold text-xs"></div>
+                <span class="text-neutralGray block text-xs mb-1">Semáforo del viaje:</span>
+                <div id="resInadmissibility" class="p-3 text-center rounded font-bold text-sm"></div>
             </div>
 
             <div>
-                <span class="text-neutralGray block text-xs mb-1">Diagnóstico operativo de viaje:</span>
-                <div id="resDiagnostic" class="text-xs leading-relaxed text-neutralGray"></div>
+                <span class="text-neutralGray block text-xs mb-1">¿Qué significa para ti?:</span>
+                <div id="resDiagnostic" class="text-xs leading-relaxed text-clinicalWhite bg-petroleum/60 p-3 rounded border border-neutralGray/30"></div>
             </div>
         </div>
 
-        <!-- PANEL DE CONVERSIÓN COMERCIAL (CIERRE DE DOBLE VÍA) -->
+        <!-- BOTONES DE AYUDA -->
         <div id="ctaContainer" class="hidden pt-4 border-t border-neutralGray/30 flex flex-col md:flex-row gap-3">
             <a href="#" id="ctaDiy" class="flex-1 text-center bg-neutralGray/20 hover:bg-neutralGray/30 text-xs font-semibold py-3 px-4 rounded border border-neutralGray/50 transition">
-                Opción DIY: Adquirir Guía Táctica y Checklist (I-601/I-601A)[cite: 1]
+                Quiero hacerlo yo mismo (Ver Guía Táctica)[cite: 1]
             </a>
             <a href="#" id="ctaAssisted" class="flex-1 text-center bg-emeraldAlert text-navyDark text-xs font-bold py-3 px-4 rounded transition hover:opacity-90">
-                Opción Asistida: Agendar Auditoría y Preparación de Expediente[cite: 1]
+                Prefiero ayuda experta (Agendar revisión)[cite: 1]
             </a>
         </div>
 
@@ -105,7 +114,7 @@
             const exclusions = parseInt(document.getElementById('exclusionDays').value) || 0;
 
             if (!startInput || !endInput) {
-                alert('Por favor complete las fechas de ingreso y estatus/cálculo.');
+                alert('Por favor completa las dos primeras fechas para poder calcular.');
                 return;
             }
 
@@ -113,37 +122,33 @@
             const endDate = new Date(endInput);
 
             if (endDate < startDate) {
-                alert('La fecha de estatus o cálculo no puede ser anterior a la fecha de ingreso.');
+                alert('La fecha de protección no puede ser anterior a la fecha de entrada.');
                 return;
             }
 
             const diffTime = Math.abs(endDate - startDate);
             const rawDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             
-            // Fórmula: (=Fecha_Estatus - Fecha_Ingreso - Exclusiones)
             const netDays = Math.max(0, rawDays - exclusions);
             const netYears = (netDays / 365).toFixed(1);
 
-            // Mostrar contenedores
             document.getElementById('resultContainer').classList.remove('hidden');
             document.getElementById('ctaContainer').classList.remove('hidden');
 
-            // Asignar valores numéricos
             document.getElementById('resDays').innerText = `${netDays} días`;
             document.getElementById('resYears').innerText = `${netYears} años`;
 
-            // Semáforo y diagnóstico condicional
             const inadDiv = document.getElementById('resInadmissibility');
             const diagDiv = document.getElementById('resDiagnostic');
 
             if (netDays >= 365) {
-                inadDiv.innerHTML = "SÍ, CASTIGO ACTIVO";
-                inadDiv.className = "p-2 text-center rounded font-bold text-xs bg-dangerRed text-clinicalWhite";
-                diagDiv.innerHTML = "<strong>RIESGO CRÍTICO - DETENER VIAJE:</strong> El resultado es igual o mayor a 365 días de presencia ilegal. Salir con Advance Parole (Formulario I-131) activa de forma automática el castigo de inadmisibilidad por 10 años bajo el precedente <em>Matter of Delcarmen-Lara</em>[cite: 1]. Se requiere estructurar los Formularios I-601 o I-601A[cite: 1].";
+                inadDiv.innerHTML = "🔴 LUZ ROJA: ¡MUCHO CUIDADO!";
+                inadDiv.className = "p-3 text-center rounded font-bold text-sm bg-dangerRed text-clinicalWhite";
+                diagDiv.innerHTML = "<strong>Peligro alto:</strong> Juntaste 365 días (un año) o más[cite: 1]. Si sales del país ahora con Advance Parole, las reglas nuevas (<em>Matter of Delcarmen-Lara</em>) indican que te pondrán un castigo automático de 10 años sin poder volver[cite: 1]. <strong>No viajes</strong> sin hablar antes con un especialista para revisar tus perdones[cite: 1].";
             } else {
-                inadDiv.innerHTML = "NO ACTIVO";
-                inadDiv.className = "p-2 text-center rounded font-bold text-xs bg-emeraldAlert text-navyDark";
-                diagDiv.innerHTML = "<strong>RIESGO BAJO - REVISAR EXPEDIENTE:</strong> El cálculo neto es inferior a 365 días acumulados[cite: 1]. No se activa el castigo automático de los 10 años por este periodo, sin embargo, se requiere una revisión exhaustiva de antecedentes adicionales antes de proceder con cualquier viaje[cite: 1].";
+                inadDiv.innerHTML = "🟢 LUZ VERDE: MENOS DE UN AÑO";
+                inadDiv.className = "p-3 text-center rounded font-bold text-sm bg-emeraldAlert text-navyDark";
+                diagDiv.innerHTML = "<strong>Buen comienzo:</strong> Tienes menos de 365 días acumulados[cite: 1]. Esto significa que no se activa ese castigo automático de los 10 años por este tiempo[cite: 1]. De todas formas, recuerda revisar si tienes otros detalles en tu expediente antes de comprar boletos[cite: 1].";
             }
         }
     </script>
