@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Auditoría Preventiva | Consultoría Migratoria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navyDark: '#0B132B',
+                        petroleum: '#1C2541',
+                        clinicalWhite: '#FFFFFF',
+                        neutralGray: '#6C757D',
+                        emeraldAlert: '#2A9D8F',
+                        dangerRed: '#E76F51'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-navyDark text-clinicalWhite font-sans antialiased p-6 md:p-12">
+
+    <div class="max-w-2xl mx-auto bg-petroleum border border-neutralGray/30 rounded-lg p-6 md:p-8 shadow-2xl">
+        
+        <header class="mb-6 border-b border-neutralGray/30 pb-4">
+            <h1 class="text-xl md:text-2xl font-semibold tracking-wide">Auditoría Preventiva: Cálculo de Presencia Ilegal</h1>
+            <p class="text-sm text-neutralGray mt-1">Evaluación de riesgo ante el precedente del BIA (Matter of Delcarmen-Lara) para salidas con Formulario I-131 (Advance Parole)[cite: 1].</p>
+        </header>
+
+        <form id="auditForm" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium mb-1">1. Días totales transcurridos desde el inicio de presencia ilegal:</label>
+                <input type="number" id="totalDays" required placeholder="Ej. 400" class="w-full bg-navyDark border border-neutralGray/50 rounded p-2.5 text-clinicalWhite focus:outline-none focus:border-emeraldAlert">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium mb-1">2. Días protegidos bajo estatus o amparos válidos (TPS / DACA):</label>
+                <input type="number" id="protectedDays" required value="0" placeholder="Ej. 0" class="w-full bg-navyDark border border-neutralGray/50 rounded p-2.5 text-clinicalWhite focus:outline-none focus:border-emeraldAlert">
+            </div>
+
+            <button type="button" onclick="calcularRiesgo()" class="w-full bg-emeraldAlert text-navyDark font-semibold py-2.5 rounded transition hover:opacity-90">
+                Calcular Riesgo Operativo
+            </button>
+        </form>
+
+        <div id="resultContainer" class="hidden mt-6 p-4 rounded bg-navyDark border border-neutralGray/40">
+            <h2 id="resultTitle" class="text-lg font-semibold mb-2"></h2>
+            <p id="resultDescription" class="text-sm text-neutralGray leading-relaxed"></p>
+            
+            <div class="mt-6 border-t border-neutralGray/30 pt-4 flex flex-col md:flex-row gap-3">
+                <a href="#" id="ctaDiy" class="flex-1 text-center bg-neutralGray/25 hover:bg-neutralGray/40 text-xs font-semibold py-2.5 px-4 rounded border border-neutralGray/50 transition">
+                    Opción DIY: Adquirir Guía Táctica[cite: 1]
+                </a>
+                <a href="#" id="ctaAssisted" class="flex-1 text-center bg-emeraldAlert text-navyDark text-xs font-semibold py-2.5 px-4 rounded transition hover:opacity-90">
+                    Opción Asistida: Contratar Preparación[cite: 1]
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function calcularRiesgo() {
+            const total = parseInt(document.getElementById('totalDays').value) || 0;
+            const protected = parseInt(document.getElementById('protectedDays').value) || 0;
+            const netDays = total - protected;
+
+            const container = document.getElementById('resultContainer');
+            const title = document.getElementById('resultTitle');
+            const desc = document.getElementById('resultDescription');
+
+            container.classList.remove('hidden');
+
+            if (netDays >= 365) {
+                title.innerHTML = `🔴 Diagnóstico: CRÍTICO (&ge; 365 días netos)[cite: 1]`;
+                title.className = "text-lg font-semibold mb-2 text-dangerRed";
+                desc.innerHTML = `Acumulas ${netDays} días de presencia ilegal. <strong>Prohibición estricta de viaje:</strong> Salir con Formulario I-131 activa automáticamente el castigo de los 10 años sin un perdón aprobado[cite: 1]. Se requiere estructurar los Formularios I-601 o I-601A[cite: 1].`;
+            } else {
+                title.innerHTML = `🟡 Diagnóstico: SEGURO (< 365 días netos)[cite: 1]`;
+                title.className = "text-lg font-semibold mb-2 text-emeraldAlert";
+                desc.innerHTML = `Acumulas ${netDays} días de presencia ilegal. No se alcanza el umbral de penalización automática por este periodo[cite: 1], pero se requiere una auditoría exhaustiva de antecedentes y salidas previas antes de proceder[cite: 1].`;
+            }
+        }
+    </script>
+
+</body>
+</html>
